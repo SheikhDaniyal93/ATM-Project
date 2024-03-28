@@ -1,6 +1,9 @@
 #! /usr/bin/env node
 
 import inquirer from "inquirer";
+import Choices from "inquirer/lib/objects/choices.js";
+let author = "SD93";
+console.log(`Welcome to ${author} ATM Machine!!!`);
 let myBalance = 50000;
 let myPin = 1993;
 
@@ -18,7 +21,7 @@ if (pinAnswer.pin === myPin) {
       name: "transaction",
       message: "Select Your Transaction",
       type: "list",
-      choices: ["Withdraw", "Balance Information"],
+      choices: ["Fast Cash","Withdraw", "Balance Information"],
     },
   ]);
   if (transaction.transaction === "Withdraw") {
@@ -31,12 +34,25 @@ if (pinAnswer.pin === myPin) {
     ]);
     if (withdraw.withdraw <= myBalance) {
       myBalance = myBalance - withdraw.withdraw;
-      console.log(`Your Remaining Balance is ${myBalance}`);
+      console.log("Collect Your Cash !!!"); 
+      console.log(`Your New Balance is ${myBalance}\nThank you For Using ${author} ATM Machine!!!`);
     } else {
       console.log("Insufficient Balance!!!");
     }
+    
   } else if (transaction.transaction === "Balance Information") {
     console.log(`Your Balance is:` + myBalance);
+  } 
+  else if (transaction.transaction === "Fast Cash"){
+    let amountOption= await inquirer.prompt([
+       { name: "fastcash",
+        message: "Select Your Amount",
+        type: "list",
+        choices: ["1000","5000","10000","15000","20000"],
+  },
+]);
+ myBalance= myBalance-amountOption.fastcash
+console.log(`Collect Your Cash !!!\nYour New Balance is ${myBalance}\nThank you For Using ${author} ATM Machine!!!`);
   }
 } else {
   console.log("Incorrect Pin Code!!!");
