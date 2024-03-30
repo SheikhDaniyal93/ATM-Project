@@ -13,15 +13,23 @@ let pinAnswer = await inquirer.prompt([
     message: "Enter Your Pin Code",
     type: "number",
   },
+  
 ]);
+
 if (pinAnswer.pin === myPin) {
-  console.log("Correct Pin Code!!!");
+  console.log("Correct User Pin !!!");
   let transaction = await inquirer.prompt([
+    {
+      name: "account option",
+      message: "Select Your Account",
+      type: "list",
+      choices: ["Current", "Saving"],
+    },
     {
       name: "transaction",
       message: "Select Your Transaction",
       type: "list",
-      choices: ["Fast Cash","Withdraw", "Balance Information"],
+      choices: ["Fast Cash","Withdraw", "Account Transfer","Balance Information"],
     },
   ]);
   if (transaction.transaction === "Withdraw") {
@@ -40,8 +48,10 @@ if (pinAnswer.pin === myPin) {
       console.log("Insufficient Balance!!!");
     }
     
+    
   } else if (transaction.transaction === "Balance Information") {
     console.log(`Your Balance is:` + myBalance);
+    console.log(`Thank you For Using ${author} ATM Machine!!!`);
   } 
   else if (transaction.transaction === "Fast Cash"){
     let amountOption= await inquirer.prompt([
@@ -50,10 +60,38 @@ if (pinAnswer.pin === myPin) {
         type: "list",
         choices: ["1000","5000","10000","15000","20000"],
   },
+
 ]);
  myBalance= myBalance-amountOption.fastcash
 console.log(`Collect Your Cash !!!\nYour New Balance is ${myBalance}\nThank you For Using ${author} ATM Machine!!!`);
   }
-} else {
-  console.log("Incorrect Pin Code!!!");
+  else if (transaction.transaction === "Account Transfer"){
+    let transfer = await inquirer.prompt([
+      {
+        name: "transfer",
+        message: "Select Your Account",
+        type: "list",
+        choices: ["00123","00321","00456"],
+      },
+      {
+        name: "addmore",
+        message: "Enter Your Amount You Want to Transfer",
+        type: "number",
+      }
+      
+    ]);
+    if(transfer.addmore <= myBalance){
+      myBalance = myBalance - transfer.addmore
+    console.log(`Your amount has been successfully transfered !!!\nYour New Balance is ${myBalance}\nThank you For Using ${author} ATM Machine!!!`);
+    } else{
+      console.log(`Insufficient Balance!!!\nThank you For Using ${author} ATM Machine!!!`);
+    } 
+    
+  } 
+
+} 
+
+
+else {
+  console.log(`Invalid User Pin !!!\nPlease Enter Correct User Pin.`);
 }
