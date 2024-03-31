@@ -1,6 +1,6 @@
 {
   "name": "sd93-atm-project",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "This is a ATM Project",
   "main": "index.js",
   "type": "module",
